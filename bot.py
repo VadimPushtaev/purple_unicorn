@@ -7,6 +7,7 @@ import random
 import re
 import telebot
 
+from telegram.parsemode import ParseMode
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.WARN)
@@ -29,7 +30,7 @@ def r_command(bot, update):
 def roll_msg(msg, bot, update):
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
     answer=update.message.from_user.username + ' rolls:\n' + res + ' = <b>' + str(eval(res)) + '</b>'
-    bot.sendMessage(chat_id=update.message.chat_id, text=answer, parse_mode=telegram.ParseMode.HTML)
+    bot.sendMessage(chat_id=update.message.chat_id, text=answer, parse_mode=ParseMode.HTML)
 
 def dice_roll(matchobj):
     x,y=map(int,matchobj.groups())
