@@ -5,7 +5,7 @@ import os
 import sys
 import telebot
 
-from telegram.ext import CommandHandler, Filters, Updater
+from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.WARN)
 logger = logging.getLogger(__name__)
