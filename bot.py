@@ -14,9 +14,9 @@ logger = logging.getLogger(__name__)
 
 def dice_roll(matchobj):
     x,y=map(int,matchobj.groups())
-    s = 0
-    for each in range(x):
-        s += random.randint(1, y)
+    s = random.randint(1, y)
+    for each in range(1, x):
+        s += '+' + random.randint(1, y)
     return '(' + str(s) + ')'
 
 def talk(bot, update):
