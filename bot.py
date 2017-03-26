@@ -54,12 +54,18 @@ def init_command(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
 def roll_command(bot, update):
-    msg = update.message.text[6:]
-    roll_msg(msg, bot, update)
+    if len(update.message.text) <= 6:
+        roll_msg("1d20", bot, update)
+    else:
+        msg = update.message.text[6:]
+        roll_msg(msg, bot, update)
 
 def r_command(bot, update):
-    msg = update.message.text[3:]
-    roll_msg(msg, bot, update)
+    if len(update.message.text) <= 3:
+        roll_msg("1d20", bot, update)
+    else:
+        msg = update.message.text[3:]
+        roll_msg(msg, bot, update)
 
 def roll_msg(msg, bot, update):
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
