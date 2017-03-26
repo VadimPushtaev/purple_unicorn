@@ -14,8 +14,20 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 def talk_command(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id, text="I'm crazy purple unicorn!!!!!")
-    bot.sendSticker(chat_id=update.message.chat_id, sticker='CAADAgADOgAD7sShCiK3hMJMvtbhAg')
+    if rollD(2) == 1:
+        msgs = ["I'm crazy purple unicorn!!!!!", "Tell me 'bout the raaaaabits", "I am fluffy! Fluffy-fluffy-fluffy WOLF!"]
+        bot.sendMessage(chat_id=update.message.chat_id, text=random.choice(msgs))
+    else:
+        stickers = ['CAADAgADOgAD7sShCiK3hMJMvtbhAg', 'CAADAgADXwAD7sShCnji8rK8rHETAg']
+        bot.sendSticker(chat_id=update.message.chat_id, sticker=random.choice(stickers))
+
+def help_command(bot, update):
+    bot.sendMessage(chat_id=update.message.chat_id, 
+                    text='<code>/talk</code> - bot will introduce itself\n' +
+                         '<code>/roll</code> - roll dices. E.g.: /roll 2d6 + 5\n' +
+                         '<code>/r</code> - shortcut for roll command\n' +
+                         '<code>/init</code> - roll dices for initiative (or any saves), result will be sorted; you may also pass your bonuses with your names, e.g.: /init barbarian=2 cleric=0 orc1=1 orc2=1', 
+                    parse_mode=ParseMode.HTML)
 
 def init_command(bot, update):
     msg = update.message.text[6:]
@@ -80,6 +92,7 @@ if __name__ == '__main__':
     updater.bot.setWebhook("https://punic.herokuapp.com/" + TOKEN)
 
     dispatcher = updater.dispatcher
+    dispatcher.add_handler(CommandHandler("help", help_command))
     dispatcher.add_handler(CommandHandler("init", init_command))
     dispatcher.add_handler(CommandHandler("roll", roll_command))
     dispatcher.add_handler(CommandHandler("r", r_command))
