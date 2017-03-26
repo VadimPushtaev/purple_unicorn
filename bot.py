@@ -33,7 +33,7 @@ def init_command(bot, update):
                     width=len(pairs[0])
     res="Results:"
     for char in sorted(parts_tuples, key=lambda parts: (-parts[1], -parts[2], -parts[4])):
-        res += '\n' + '<code>' + '{0: <{width}}'.format(char[0], width=width) + '</code> : <b>' + str(char[1]) + '</b> (' + str(char[3]) + ' ' + str(char(2)) + ' [' + str(char[4]) + '])'
+        res += '\n' + '<code>' + '{0: <{width}}'.format(char[0], width=width) + '</code> : <b>' + str(char[1]) + '</b> (' + str(char[3]) + ' ' + str(char[2]) + ' [' + str(char[4]) + '])'
     bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
 def roll_command(bot, update):
