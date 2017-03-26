@@ -19,7 +19,7 @@ def hi_command(bot, update):
         name = user.first_name
         if name is None:
             name = user.username
-        msgs = ["I'm crazy purple unicorn!!!!!", "Tell me 'bout the raaaaabits", "I am fluffy! Fluffy-fluffy-fluffy WOLF!", "Let me be a leader and I shall endeavor not to get all of us killed.", name + ', why are you talking to me?!']
+        msgs = ["I'm crazy purple unicorn!!!!!", "Tell me 'bout the raaaaabits", "I am fluffy! Fluffy-fluffy-fluffy WOLF!", "Let me be a leader and I shall endeavor not to get all of us killed.", name + ', why are you talking to me?!', "Pfffff! I don't listen to you. Hear me, " + name + "? I. Don't. Listen. You should know that."]
         bot.sendMessage(chat_id=update.message.chat_id, text=random.choice(msgs))
     else:
         stickers = ['CAADAgADOgAD7sShCiK3hMJMvtbhAg', 'CAADAgADXwAD7sShCnji8rK8rHETAg', 'CAADAgADPgAD7sShChzV1O0OvX5KAg', 'CAADAgADPAAD7sShCkDkzhbVa_89Ag']
@@ -53,17 +53,12 @@ def init_command(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
 def roll_command(bot, update):
-    if len(update.message.text) <= 6:
+    msg_text = update.message.text.strip()
+    ndx = msg_text.find(' ')
+    if ndx == -1:
         roll_msg("1d20", bot, update)
     else:
-        msg = update.message.text[6:]
-        roll_msg(msg, bot, update)
-
-def r_command(bot, update):
-    if len(update.message.text) <= 3:
-        roll_msg("1d20", bot, update)
-    else:
-        msg = update.message.text[3:]
+        msg = msg_text[ndx:]
         roll_msg(msg, bot, update)
 
 def roll_msg(msg, bot, update):
@@ -98,7 +93,7 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler("help", help_command))
     dispatcher.add_handler(CommandHandler("init", init_command))
     dispatcher.add_handler(CommandHandler("roll", roll_command))
-    dispatcher.add_handler(CommandHandler("r", r_command))
+    dispatcher.add_handler(CommandHandler("r", roll_command))
     dispatcher.add_handler(CommandHandler("hi", hi_command))
 
     dispatcher.add_error_handler(error)
