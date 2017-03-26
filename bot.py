@@ -1,6 +1,5 @@
 #!/usr/bin/python3.4
 # -*- coding: utf-8 -*-
-import ConfigParser
 import logging
 import os
 import sys
@@ -20,15 +19,11 @@ def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 if __name__ == '__main__':
-    # get config info
-    config_name=sys.argv[1];
-    config = ConfigParser.ConfigParser()
-    config.read(config_name)
-
-    TOKEN = config.get('main', 'token')
-    updater = Updater(token=TOKEN)
-
+    TOKEN = "307626358:AAGZjVmwtIbm3AictFocZJcV6Ps5PAZxofI"
     PORT = int(os.environ.get('PORT', '5000'))
+
+    logger.info("Start app on port %s" % (PORT))
+    updater = Updater(TOKEN)
 
     updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
     updater.bot.setWebhook("https://punic.herokuapp.com/" + TOKEN)
