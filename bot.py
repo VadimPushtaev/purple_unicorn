@@ -14,16 +14,20 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 def talk_command(bot, update):
-    logger.info('Update [%s]' % (update))
     bot.sendMessage(chat_id=update.message.chat_id, text="I'm crazy purple unicorn!!!!!")
 
+def init_command(bot, update):
+    msg = update.message.text[6:]
+    parts = msg.split(' ')
+    parts_tuples=[]
+    for p in parts:
+        print p
+
 def roll_command(bot, update):
-    logger.info('Update [%s]' % (update))
     msg = update.message.text[6:]
     roll_msg(msg, bot, update)
 
 def r_command(bot, update):
-    logger.info('Update [%s]' % (update))
     msg = update.message.text[3:]
     roll_msg(msg, bot, update)
 
@@ -60,9 +64,10 @@ if __name__ == '__main__':
     updater.bot.setWebhook("https://punic.herokuapp.com/" + TOKEN)
 
     dispatcher = updater.dispatcher
-    dispatcher.add_handler(CommandHandler("talk", talk_command))
+    dispatcher.add_handler(CommandHandler("init", init_command))
     dispatcher.add_handler(CommandHandler("roll", roll_command))
     dispatcher.add_handler(CommandHandler("r", r_command))
+    dispatcher.add_handler(CommandHandler("talk", talk_command))
     dispatcher.add_handler(MessageHandler(Filters.text, get_input))
 
     dispatcher.add_error_handler(error)
