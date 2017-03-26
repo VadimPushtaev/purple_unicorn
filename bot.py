@@ -5,8 +5,7 @@ import os
 import sys
 import telebot
 
-from telegram.ext import CommandHandler
-from telegram.ext import Updater
+from telegram.ext import CommandHandler, Filters, Updater
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.WARN)
 logger = logging.getLogger(__name__)
@@ -18,6 +17,10 @@ def talk(bot, update):
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
+def get_input(bot, update):
+    user = update.message.from_user
+    update.message.reply_text('%s, why are you talking to me?!' % (user))
+
 if __name__ == '__main__':
     TOKEN = "307626358:AAGZjVmwtIbm3AictFocZJcV6Ps5PAZxofI"
     PORT = int(os.environ.get('PORT', '5000'))
@@ -27,5 +30,10 @@ if __name__ == '__main__':
                           port=PORT,
                           url_path=TOKEN)
     updater.bot.setWebhook("https://punic.herokuapp.com/" + TOKEN)
+
+    dispatcher = updater.dispatcher
+    dispatcher.add_handler(CommandHandler("talk", talk))
+    dispatcher.add_handler(MessageHandler(Filters.text, get_input))
+
     updater.idle()
 
