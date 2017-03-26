@@ -27,13 +27,13 @@ def init_command(bot, update):
             pairs=p.split('=')
             if len(pairs) == 2:
                 roll=rollD(20)
-                char=(pairs[0], roll+int(pairs[1])+0.01*int(pairs[1]), roll)
+                char=(pairs[0], roll+int(pairs[1]), int(pairs[1]), roll, rollD(10))
                 parts_tuples.append(char)
                 if len(pairs[0]) > width:
                     width=len(pairs[0])
     res="Results:"
-    for char in sorted(parts_tuples, key=lambda parts: parts[1]):
-        res += '\n' + '<code>' + '{0: <{width}}'.format(char[0], width=width) + '</code> : <b>' + str(char[1]) + '</b> (' + str(char[2]) + ')'
+    for char in sorted(parts_tuples, key=lambda parts: (-parts[1], -parts[2], -parts(4))):
+        res += '\n' + '<code>' + '{0: <{width}}'.format(char[0], width=width) + '</code> : <b>' + str(char[1]) + '</b> (' + str(char[3]) + ' ' + char(2) + ' [' + char[4] + '])'
     bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
 def roll_command(bot, update):
