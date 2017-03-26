@@ -20,8 +20,20 @@ def init_command(bot, update):
     msg = update.message.text[6:]
     parts = msg.split(' ')
     parts_tuples=[]
+    width=1
     for p in parts:
-        bot.sendMessage(chat_id=update.message.chat_id, text=p)
+        if len(p) > 0:
+            pairs=p.split('=')
+            if len(pairs) == 2:
+                char=(pairs[0], str(rollD(20)+int(pairs[1])+0.01*int(pairs[1])))
+                parts_tuples.append(char)
+                if len(pairs[0]) > width:
+                    width=len(pairs[0])
+    sorted(parts_tuples, key=lambda parts: parts[1])
+    res="Results:"
+    for char in parts_tuples:
+        res += '\n' + '{0: <{width}}'.format(char[0], width=width) + ' : <b>' + char[1] + '</b>'
+    bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
 def roll_command(bot, update):
     msg = update.message.text[6:]
@@ -38,10 +50,13 @@ def roll_msg(msg, bot, update):
 
 def dice_roll(matchobj):
     x,y=map(int,matchobj.groups())
-    s = str(random.randint(1, y))
+    s = str(rollD(y))
     for each in range(1, x):
-        s += '+' + str(random.randint(1, y))
+        s += '+' + str(rollD(y))
     return '(' + str(s) + ')'
+
+def rollD(d):
+    return random.randint(1, d)
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
