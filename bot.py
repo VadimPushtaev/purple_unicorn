@@ -25,7 +25,7 @@ def talk(bot, update):
 
 def roll(bot, update):
     logger.info('Update [%s]' % (update))
-    msg = update.message.text
+    msg = update.message.text[6:]
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
     update.message.reply_text('%s = %s' % (res, eval(res)))
 
