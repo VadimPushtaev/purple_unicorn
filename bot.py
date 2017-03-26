@@ -25,14 +25,15 @@ def init_command(bot, update):
         if len(p) > 0:
             pairs=p.split('=')
             if len(pairs) == 2:
-                char=(pairs[0], str(rollD(20)+int(pairs[1])+0.01*int(pairs[1])))
+                roll=rollD(20)
+                char=(pairs[0], roll+int(pairs[1])+0.01*int(pairs[1]), roll)
                 parts_tuples.append(char)
                 if len(pairs[0]) > width:
                     width=len(pairs[0])
     sorted(parts_tuples, key=lambda parts: parts[1])
     res="Results:"
     for char in parts_tuples:
-        res += '\n' + '{0: <{width}}'.format(char[0], width=width) + ' : <b>' + char[1] + '</b>'
+        res += '\n' + '<pre>{0: <{width}}'.format(char[0], width=width) + '</pre> : <b>' + char[1] + '</b> (' + char[2] + ')'
     bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
 def roll_command(bot, update):
