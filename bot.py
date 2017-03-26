@@ -14,12 +14,19 @@ def talk(bot, update):
     logger.info('Update [%s]' % (update))
     bot.sendMessage(chat_id=update.message.chat_id, text="I'm crazy purple unicorn!!!!!")
 
+def roll(bot, update):
+    logger.info('Update [%s]' % (update))
+    update.message.reply_text(update.message)
+
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 def get_input(bot, update):
     user = update.message.from_user
-    update.message.reply_text('%s, why are you talking to me?!' % (user))
+    name = user.first_name
+    if name is None:
+        name = user.username
+    update.message.reply_text('%s, why are you talking to me?!' % (name))
 
 if __name__ == '__main__':
     TOKEN = "307626358:AAGZjVmwtIbm3AictFocZJcV6Ps5PAZxofI"
@@ -34,6 +41,8 @@ if __name__ == '__main__':
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("talk", talk))
     dispatcher.add_handler(MessageHandler(Filters.text, get_input))
+
+    dispatcher.add_error_handler(error)
 
     updater.idle()
 
