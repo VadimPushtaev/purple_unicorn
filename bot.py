@@ -19,14 +19,14 @@ def talk_command(bot, update):
 def roll_command(bot, update):
     logger.info('Update [%s]' % (update))
     msg = update.message.text[6:]
-    roll_msg(msg, update)
+    roll_msg(msg, bot, update)
 
 def r_command(bot, update):
     logger.info('Update [%s]' % (update))
     msg = update.message.text[3:]
-    roll_msg(msg, update)
+    roll_msg(msg, bot, update)
 
-def roll_msg(msg, update):
+def roll_msg(msg, bot, update):
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
     answer=update.message.from_user.username + ' rolls:\n' + res + ' = <b>' + str(eval(res)) + '</b>'
     bot.sendMessage(chat_id=update.message.chat_id, text=answer, parse_mode=telegram.ParseMode.HTML)
