@@ -15,7 +15,11 @@ logger = logging.getLogger(__name__)
 
 def hi_command(bot, update):
     if rollD(2) == 1:
-        msgs = ["I'm crazy purple unicorn!!!!!", "Tell me 'bout the raaaaabits", "I am fluffy! Fluffy-fluffy-fluffy WOLF!", "Let me be a leader and I shall endeavor not to get all of us killed."]
+        user = update.message.from_user
+        name = user.first_name
+        if name is None:
+            name = user.username
+        msgs = ["I'm crazy purple unicorn!!!!!", "Tell me 'bout the raaaaabits", "I am fluffy! Fluffy-fluffy-fluffy WOLF!", "Let me be a leader and I shall endeavor not to get all of us killed.", name + ', why are you talking to me?!']
         bot.sendMessage(chat_id=update.message.chat_id, text=random.choice(msgs))
     else:
         stickers = ['CAADAgADOgAD7sShCiK3hMJMvtbhAg', 'CAADAgADXwAD7sShCnji8rK8rHETAg', 'CAADAgADPgAD7sShChzV1O0OvX5KAg', 'CAADAgADPAAD7sShCkDkzhbVa_89Ag']
@@ -74,13 +78,6 @@ def rollD(d):
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
-def get_input(bot, update):
-    user = update.message.from_user
-    name = user.first_name
-    if name is None:
-        name = user.username
-    update.message.reply_text('%s, why are you talking to me?!' % (name))
-
 if __name__ == '__main__':
     TOKEN = "307626358:AAGZjVmwtIbm3AictFocZJcV6Ps5PAZxofI"
     PORT = int(os.environ.get('PORT', '5000'))
@@ -97,7 +94,6 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler("roll", roll_command))
     dispatcher.add_handler(CommandHandler("r", r_command))
     dispatcher.add_handler(CommandHandler("hi", hi_command))
-    dispatcher.add_handler(MessageHandler(Filters.text, get_input))
 
     dispatcher.add_error_handler(error)
 
