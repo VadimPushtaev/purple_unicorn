@@ -31,9 +31,8 @@ def init_command(bot, update):
                 parts_tuples.append(char)
                 if len(pairs[0]) > width:
                     width=len(pairs[0])
-    sorted(parts_tuples, key=lambda parts: parts[1])
     res="Results:"
-    for char in parts_tuples:
+    for char in sorted(parts_tuples, key=lambda parts: parts[1]):
         res += '\n' + '<code>' + '{0: <{width}}'.format(char[0], width=width) + '</code> : <b>' + str(char[1]) + '</b> (' + str(char[2]) + ')'
     bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
