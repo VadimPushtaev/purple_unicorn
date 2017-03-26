@@ -27,7 +27,7 @@ def roll(bot, update):
     logger.info('Update [%s]' % (update))
     msg = update.message.text
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
-    update.message.reply_text('%s = %s', % (res, eval(res)))
+    update.message.reply_text('%s = %s' % (res, eval(res)))
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
