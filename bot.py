@@ -49,7 +49,9 @@ def get_input(bot, update):
     update.message.reply_text('%s, why are you talking to me?!' % (name))
 
 if __name__ == '__main__':
-
+    TOKEN = "307626358:AAGZjVmwtIbm3AictFocZJcV6Ps5PAZxofI"
+    PORT = int(os.environ.get('PORT', '5000'))
+    updater = Updater(TOKEN)
 
     updater.start_webhook(listen="0.0.0.0",
                           port=PORT,
