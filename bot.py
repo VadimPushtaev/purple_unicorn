@@ -21,17 +21,11 @@ def error(bot, update, error):
 if __name__ == '__main__':
     TOKEN = "307626358:AAGZjVmwtIbm3AictFocZJcV6Ps5PAZxofI"
     PORT = int(os.environ.get('PORT', '5000'))
-
-    logger.info("Start app on port %s" % (PORT))
     updater = Updater(TOKEN)
 
-    updater.start_webhook(listen="0.0.0.0", port=PORT, url_path=TOKEN)
+    updater.start_webhook(listen="0.0.0.0",
+                          port=PORT,
+                          url_path=TOKEN)
     updater.bot.setWebhook("https://punic.herokuapp.com/" + TOKEN)
-    
-    # get dispatcher
-    dispatcher = updater.dispatcher
-    dispatcher.add_handler(CommandHandler('talk', talk))
-    dispatcher.add_error_handler(error)
-
     updater.idle()
 
