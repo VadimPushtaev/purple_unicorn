@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def talk_command(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text="I'm crazy purple unicorn!!!!!")
-    bot.sendSticker(chat_id=update.message.chat_id, sticker='17a57606-fee7-47c5-b630-5e00b4e0ed1e')
+    bot.sendSticker(chat_id=update.message.chat_id, sticker='CAADAgADOgAD7sShCiK3hMJMvtbhAg')
 
 def init_command(bot, update):
     msg = update.message.text[6:]
@@ -34,7 +34,7 @@ def init_command(bot, update):
     sorted(parts_tuples, key=lambda parts: parts[1])
     res="Results:"
     for char in parts_tuples:
-        res += '\n' + '<pre>' + '{0: <{width}}'.format(char[0], width=width) + '</pre> : <b>' + str(char[1]) + '</b> (' + str(char[2]) + ')'
+        res += '\n' + '<code>' + '{0: <{width}}'.format(char[0], width=width) + '</code> : <b>' + str(char[1]) + '</b> (' + str(char[2]) + ')'
     bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
 def roll_command(bot, update):
