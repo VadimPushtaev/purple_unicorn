@@ -12,13 +12,6 @@ from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.WARN)
 logger = logging.getLogger(__name__)
 
-def dice_roll(matchobj):
-    x,y=map(int,matchobj.groups())
-    s = str(random.randint(1, y))
-    for each in range(1, x):
-        s += '+' + str(random.randint(1, y))
-    return '(' + str(s) + ')'
-
 def talk(bot, update):
     logger.info('Update [%s]' % (update))
     bot.sendMessage(chat_id=update.message.chat_id, text="I'm crazy purple unicorn!!!!!")
@@ -26,8 +19,18 @@ def talk(bot, update):
 def roll(bot, update):
     logger.info('Update [%s]' % (update))
     msg = update.message.text[6:]
+    roll_msg(msg, update)
+
+def roll_msg(msg, update):
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
     update.message.reply_text('%s = %s' % (res, eval(res)))
+
+def dice_roll(matchobj):
+    x,y=map(int,matchobj.groups())
+    s = str(random.randint(1, y))
+    for each in range(1, x):
+        s += '+' + str(random.randint(1, y))
+    return '(' + str(s) + ')'
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
