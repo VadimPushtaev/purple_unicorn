@@ -28,7 +28,7 @@ def r_command(bot, update):
 
 def roll_msg(msg, update):
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
-    update.message.reply_text('%s rolls:\n%s = *%s*' % (update.message.from_user.username, res, eval(res)))
+    update.message.reply_text('%s rolls:\n%s = <b>%s</b>' % (update.message.from_user.username, res, eval(res)), parse_mode=HTML)
 
 def dice_roll(matchobj):
     x,y=map(int,matchobj.groups())
