@@ -40,6 +40,7 @@ if __name__ == '__main__':
 
     dispatcher = updater.dispatcher
     dispatcher.add_handler(CommandHandler("talk", talk))
+    dispatcher.add_handler(CommandHandler("roll", roll))
     dispatcher.add_handler(MessageHandler(Filters.text, get_input))
 
     dispatcher.add_error_handler(error)
