@@ -28,7 +28,8 @@ def r_command(bot, update):
 
 def roll_msg(msg, update):
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
-    update.message.reply_text('%s rolls:\n%s = <b>%s</b>' % (update.message.from_user.username, res, eval(res)), parse_mode=HTML)
+    answer=update.message.from_user.username + ' rolls:\n' + res + ' = <b>' + eval(res) + '</b>'
+    bot.sendMessage(chat_id=update.message.chat_id, text=answer, parse_mode=telegram.ParseMode.HTML)
 
 def dice_roll(matchobj):
     x,y=map(int,matchobj.groups())
@@ -48,9 +49,7 @@ def get_input(bot, update):
     update.message.reply_text('%s, why are you talking to me?!' % (name))
 
 if __name__ == '__main__':
-    TOKEN = "307626358:AAGZjVmwtIbm3AictFocZJcV6Ps5PAZxofI"
-    PORT = int(os.environ.get('PORT', '5000'))
-    updater = Updater(TOKEN)
+
 
     updater.start_webhook(listen="0.0.0.0",
                           port=PORT,
