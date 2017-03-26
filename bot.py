@@ -21,7 +21,7 @@ def init_command(bot, update):
     parts = msg.split(' ')
     parts_tuples=[]
     for p in parts:
-        logger.info(p)
+        bot.sendMessage(chat_id=update.message.chat_id, text=p)
 
 def roll_command(bot, update):
     msg = update.message.text[6:]
