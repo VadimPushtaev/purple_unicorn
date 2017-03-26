@@ -54,17 +54,12 @@ def init_command(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text=res, parse_mode=ParseMode.HTML)
 
 def roll_command(bot, update):
-    if len(update.message.text) <= 6:
+    msg_text = update.message.text.strip()
+    ndx = msg_text.find(' ')
+    if ndx == -1:
         roll_msg("1d20", bot, update)
     else:
-        msg = update.message.text[6:]
-        roll_msg(msg, bot, update)
-
-def r_command(bot, update):
-    if len(update.message.text) <= 3:
-        roll_msg("1d20", bot, update)
-    else:
-        msg = update.message.text[3:]
+        msg = msg_text[ndx:]
         roll_msg(msg, bot, update)
 
 def roll_msg(msg, bot, update):
@@ -102,7 +97,7 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler("help", help_command))
     dispatcher.add_handler(CommandHandler("init", init_command))
     dispatcher.add_handler(CommandHandler("roll", roll_command))
-    dispatcher.add_handler(CommandHandler("r", r_command))
+    dispatcher.add_handler(CommandHandler("r", roll_command))
     dispatcher.add_handler(CommandHandler("hi", hi_command))
 
     dispatcher.add_error_handler(error)
