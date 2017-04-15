@@ -1,1 +1,1 @@
-web: python bot.py bot.config
+web: python bot.py
