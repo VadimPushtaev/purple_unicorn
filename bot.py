@@ -30,7 +30,7 @@ def help_command(bot, update):
                     text='<code>/hi</code> - bot will say something\n' +
                          '<code>/roll</code> - roll dices. E.g.: /roll 2d6 + 5\n' +
                          '<code>/r</code> - shortcut for roll command\n' +
-                         '<code>/percent</code> - equal to /roll 1d100' +
+                         '<code>/percent</code> - equal to /roll 1d100\n' +
                          '<code>/init</code> - roll dices for initiative (or any saves), result will be sorted; you may also pass your bonuses with your names, e.g.: /init barbarian=2 cleric=0 orc1=1 orc2=1', 
                     parse_mode=ParseMode.HTML)
 
