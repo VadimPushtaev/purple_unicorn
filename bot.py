@@ -31,6 +31,7 @@ def help_command(bot, update):
                     text='<code>/hi</code> - bot will say something\n' +
                          '<code>/roll</code> - roll dices. E.g.: /roll 2d6 + 5\n' +
                          '<code>/r</code> - shortcut for roll command\n' +
+                         '<code>/percent</code> - equals to /roll 1d100\n' +
                          '<code>/init</code> - roll dices for initiative (or any saves), result will be sorted; you may also pass your bonuses with your names, e.g.: /init barbarian=2 cleric=0 orc1=1 orc2=1', 
                     parse_mode=ParseMode.HTML)
 
@@ -61,6 +62,9 @@ def roll_command(bot, update):
     else:
         msg = msg_text[ndx:]
         roll_msg(msg, bot, update)
+
+def roll_percent(bot, update):
+    roll_msg("1d100", bot, update)
 
 def roll_msg(msg, bot, update):
     res=re.sub('(\d+)d(\d+)', dice_roll, msg)
@@ -98,6 +102,7 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler("init", init_command))
     dispatcher.add_handler(CommandHandler("roll", roll_command))
     dispatcher.add_handler(CommandHandler("r", roll_command))
+    dispatcher.add_handler(CommandHandler("percent", roll_percent))
     dispatcher.add_handler(CommandHandler("hi", hi_command))
 
     dispatcher.add_error_handler(error)
