@@ -85,7 +85,6 @@ def error(bot, update, error):
 
 if __name__ == '__main__':
     TOKEN=os.environ['bot_token']
-#    TOKEN="307626358:AAGZjVmwtIbm3AictFocZJcV6Ps5PAZxofI"
     PORT = int(os.environ.get('PORT', '5000'))
     updater = Updater(TOKEN)
 
