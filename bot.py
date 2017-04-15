@@ -1,6 +1,5 @@
 #!/usr/bin/python3.4
 # -*- coding: utf-8 -*-
-import ConfigParser
 import logging
 import os
 import sys
@@ -85,9 +84,7 @@ def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 if __name__ == '__main__':
-    config_name=sys.argv[1];
-    config = ConfigParser.ConfigParser()
-    config.read(config_name)
+    TOKEN=os.environ['bot_token']
     TOKEN=config.get('main', 'token')
     PORT = int(os.environ.get('PORT', '5000'))
     updater = Updater(TOKEN)
