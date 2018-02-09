@@ -62,17 +62,22 @@ def roll_command(bot, update):
     msg_text = update.message.text.strip()
     ndx = msg_text.find(' ')
     if ndx == -1:
-        roll_msg(dice_parser.parse("1d20"), bot, update)
+        roll_msg("1d20", bot, update)
+        
     else:
         msg = msg_text[ndx:]
-        roll_msg(dice_parser.parse(msg), bot, update)
+        roll_msg(msg, bot, update)
 
 def roll_percent(bot, update):
-    roll_msg(dice_parser.parse("1d100"), bot, update)
+    roll_msg("1d100", bot, update)
 
-def roll_msg(dice_result, bot, update):
-    answer=update.message.from_user.username + ' rolls:\n' + dice_result.string + ' = <b>' + str(dice_result.value) + '</b>'
-    bot.sendMessage(chat_id=update.message.chat_id, text=answer, parse_mode=ParseMode.HTML)
+def roll_msg(source_msg, bot, update):
+    try:
+        dice_result=dice_parser.parse(source_msg)
+        answer=update.message.from_user.username + ' rolls:\n' + dice_result.string + ' = <b>' + str(dice_result.value) + '</b>'
+        bot.sendMessage(chat_id=update.message.chat_id, text=answer, parse_mode=ParseMode.HTML)
+    except KeyError:
+        bot.sendMessage(chat_id=update.message.chat_id, text="I will not follow your commands!", parse_mode=ParseMode.HTML)
 
 def rollD(d):
     return random.randint(1, d)
