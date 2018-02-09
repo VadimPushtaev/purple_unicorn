@@ -7,30 +7,35 @@ import random
 import re
 import telebot
 
+from dice_parser import DiceParser, Transformer
 from telegram.parsemode import ParseMode
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.WARN)
 logger = logging.getLogger(__name__)
+dice_parser = DiceParser()
 
 def hi_command(bot, update):
-    if rollD(2) == 1:
-        user = update.message.from_user
-        name = user.first_name
-        if name is None:
-            name = user.username
-        msgs = ["I'm crazy purple unicorn!!!!!", "Tell me 'bout the raaaaabits", "I am fluffy! Fluffy-fluffy-fluffy WOLF!", "Let me be a leader and I shall endeavor not to get all of us killed.", name + ', why are you talking to me?!', "Pfffff! I don't listen to you. Hear me, " + name + "? I. Don't. Listen. You should know that."]
-        bot.sendMessage(chat_id=update.message.chat_id, text=random.choice(msgs))
+    user = update.message.from_user
+    name = user.first_name
+    if name is None:
+        name = user.username
+
+    msgs = ["I'm crazy purple unicorn!!!!!", "Tell me 'bout the raaaaabits", "I am fluffy! Fluffy-fluffy-fluffy WOLF!", "Let me be a leader and I shall endeavor not to get all of us killed.", name + ', why are you talking to me?!']
+    stickers = ['CAADAgADOgAD7sShCiK3hMJMvtbhAg', 'CAADAgADXwAD7sShCnji8rK8rHETAg', 'CAADAgADPgAD7sShChzV1O0OvX5KAg', 'CAADAgADPAAD7sShCkDkzhbVa_89Ag']
+    size = len(msgs) + len(stickers)
+    r = random.randint(0, size-1)
+    if r < len(msgs):
+        bot.sendMessage(chat_id=update.message.chat_id, text=msgs[r])
     else:
-        stickers = ['CAADAgADOgAD7sShCiK3hMJMvtbhAg', 'CAADAgADXwAD7sShCnji8rK8rHETAg', 'CAADAgADPgAD7sShChzV1O0OvX5KAg', 'CAADAgADPAAD7sShCkDkzhbVa_89Ag']
-        bot.sendSticker(chat_id=update.message.chat_id, sticker=random.choice(stickers))
+        bot.sendSticker(chat_id=update.message.chat_id, sticker=stickers[r-len(msgs)])
 
 def help_command(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, 
                     text='<code>/hi</code> - bot will say something\n' +
                          '<code>/roll</code> - roll dices. E.g.: /roll 2d6 + 5\n' +
                          '<code>/r</code> - shortcut for roll command\n' +
-                         '<code>/percent</code> - equal to /roll 1d100\n' +
+                         '<code>/percent</code> - equals to /roll 1d100\n' +
                          '<code>/init</code> - roll dices for initiative (or any saves), result will be sorted; you may also pass your bonuses with your names, e.g.: /init barbarian=2 cleric=0 orc1=1 orc2=1', 
                     parse_mode=ParseMode.HTML)
 
@@ -57,25 +62,17 @@ def roll_command(bot, update):
     msg_text = update.message.text.strip()
     ndx = msg_text.find(' ')
     if ndx == -1:
-        roll_msg("1d20", bot, update)
+        roll_msg(dice_parser.parse("1d20"), bot, update)
     else:
         msg = msg_text[ndx:]
-        roll_msg(msg, bot, update)
+        roll_msg(dice_parser.parse(msg), bot, update)
 
 def roll_percent(bot, update):
-    roll_msg("1d100", bot, update)
+    roll_msg(dice_parser.parse("1d100"), bot, update)
 
-def roll_msg(msg, bot, update):
-    res=re.sub('(\d+)d(\d+)', dice_roll, msg)
-    answer=update.message.from_user.username + ' rolls:\n' + res + ' = <b>' + str(eval(res)) + '</b>'
+def roll_msg(dice_result, bot, update):
+    answer=update.message.from_user.username + ' rolls:\n' + dice_result.string + ' = <b>' + str(dice_result.value) + '</b>'
     bot.sendMessage(chat_id=update.message.chat_id, text=answer, parse_mode=ParseMode.HTML)
-
-def dice_roll(matchobj):
-    x,y=map(int,matchobj.groups())
-    s = str(rollD(y))
-    for each in range(1, x):
-        s += '+' + str(rollD(y))
-    return '(' + str(s) + ')'
 
 def rollD(d):
     return random.randint(1, d)
