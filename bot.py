@@ -79,7 +79,7 @@ def roll_msg(source_msg, bot, update):
     except KeyError:
         bot.sendMessage(chat_id=update.message.chat_id, text="I will not follow your commands!", parse_mode=ParseMode.HTML)
     except Exception:
-        bot.sendMessage(chat_id=update.message.chat_id, text="Oh, c'mon, sweety, stop doing tis", parse_mode=ParseMode.HTML)
+        bot.sendMessage(chat_id=update.message.chat_id, text="Oh, c'mon, sweety, stop doing this", parse_mode=ParseMode.HTML)
 
 def rollD(d):
     return random.randint(1, d)
