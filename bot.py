@@ -22,7 +22,7 @@ def hi_command(bot, update):
         name = user.username
 
     msgs = ["I'm crazy purple unicorn!!!!!", "Tell me 'bout the raaaaabits", "I am fluffy! Fluffy-fluffy-fluffy WOLF!", "Let me be a leader and I shall endeavor not to get all of us killed.", name + ', why are you talking to me?!']
-    stickers = ['CAADAgADOgAD7sShCiK3hMJMvtbhAg', 'CAADAgADXwAD7sShCnji8rK8rHETAg', 'CAADAgADPgAD7sShChzV1O0OvX5KAg', 'CAADAgADPAAD7sShCkDkzhbVa_89Ag']
+    stickers = ['CAADAgADOgAD7sShCiK3hMJMvtbhAg', 'CAADAgADXwAD7sShCnji8rK8rHETAg', 'CAADAgADPgAD7sShChzV1O0OvX5KAg', 'CAADAgADPAAD7sShCkDkzhbVa_89Ag', 'CAADAgADNAAD7sShCuKlu6OUNCgmAg', 'CAADAgADQAAD7sShCgjoFTxdY7vVAg', 'CAADAgADpgIAAu7EoQpMlrIZAAFx37kC']
     size = len(msgs) + len(stickers)
     r = random.randint(0, size-1)
     if r < len(msgs):
