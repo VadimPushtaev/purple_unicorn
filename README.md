@@ -9,4 +9,4 @@ Simple telegram bot with webhooks. It's good for being deployed on Heroku.
 
 ## Used libs
 * python-telegram-bot 5.3.0 - nice API for telegram
-* dice-parser 0.5 - special parser for dice rolling by V.Pushtaev ( https://github.com/VadimPushtaev/dice_parser )
+* dice-parser 0.6 - special parser for dice rolling by V.Pushtaev ( https://github.com/VadimPushtaev/dice_parser )
