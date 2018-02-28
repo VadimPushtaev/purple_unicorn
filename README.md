@@ -39,7 +39,7 @@ orc1      : 11 (10 1 [1])
 orc2      : 5 (4 1 [10])
 ```
 
-Results are already sorted. The main number for us is one from the second column (first column is for names) - this is result (1d20 + bonus). The third column shows bonuses, and the last one (in square bracers) is additional roll that would be used in conflicts (same values in previous columns).
+Results are already sorted. The main number for us is one from the second column (first column is for names) - this is result of `1d20 + bonus`, which are in the third and the fourth columns, accordingly. And the last one (in square bracers) is additional roll that would be used in conflicts (if there are all the same values in previous columns).
 
 ## Used libs
 * python-telegram-bot 5.3.0 - nice API for telegram
