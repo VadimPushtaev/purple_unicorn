@@ -100,17 +100,11 @@ class PurpleBot:
             dice_result = dice_parser.parse(source_msg)
             answer = update.message.from_user.username + ' rolls:\n' + \
                 dice_result.string + ' = <b>' + str(dice_result.value) + '</b>'
-            bot.sendMessage(chat_id=update.message.chat_id,
-                            text=answer,
-                            parse_mode=ParseMode.HTML)
+            PurpleBot.send_message(bot, update.message.chat_id, answer)
         except KeyError:
-            bot.sendMessage(chat_id=update.message.chat_id,
-                            text="I will not follow your commands!",
-                            parse_mode=ParseMode.HTML)
+            PurpleBot.send_message(bot, update.message.chat_id, "I will not follow your commands!")
         except Exception:
-            bot.sendMessage(chat_id=update.message.chat_id,
-                            text="Oh, c'mon, sweety, stop doing this",
-                            parse_mode=ParseMode.HTML)
+            PurpleBot.send_message(bot, update.message.chat_id, "Oh, c'mon, sweety, stop doing this")
 
     @staticmethod
     def roll_command(bot, update):
@@ -134,23 +128,17 @@ class PurpleBot:
     def search_command(bot, update):
         msg_text = update.message.text[8:].strip()
         if len(msg_text) == 0:
-            bot.sendMessage(chat_id=update.message.chat_id,
-                            text="I don't know what you are looking for",
-                            parse_mode=ParseMode.HTML)
+            PurpleBot.send_message(bot, update.message.chat_id, "I don't know what you are looking for")
             return
         results = dnd_searcher.search(msg_text)
         compendium_results = [r for r in results if not r.breadcrumbs.upper().startswith("FORUM")]
         if len(compendium_results) == 0:
-            bot.sendMessage(chat_id=update.message.chat_id,
-                            text="I've found nothing",
-                            parse_mode=ParseMode.HTML)
+            PurpleBot.send_message(bot, update.message.chat_id, "I've found nothing")
             return
         result_text = 'Found ' + str(len(compendium_results)) + ' result(s)\n\n' + \
                       str(PurpleBot.format_search_result_full(compendium_results[0])) + '\n\n' + \
-                      '\n'.join(PurpleBot.format_search_result_short(sr) for sr in compendium_results[1:5] if sr is not None)
-        bot.sendMessage(chat_id=update.message.chat_id,
-                        text=result_text,
-                        parse_mode=ParseMode.HTML)
+                      '\n'.join(PurpleBot.format_search_result_short(sr) for sr in compendium_results[1:7] if sr is not None)
+        PurpleBot.send_message(bot, update.message.chat_id, result_text)
 
     @staticmethod
     def format_search_result_full(search_result):
@@ -162,7 +150,8 @@ class PurpleBot:
     @staticmethod
     def format_search_result_short(search_result):
         return '<a href="' + search_result.url.replace("'", "%E2%80%99") + '">' + search_result.title + '</a> ' + \
-               '(' + search_result.breadcrumbs + ')\n'
+               '(' + search_result.breadcrumbs + ')\n' + \
+               search_result.url.replace("'", "%E2%80%99")
 
     @staticmethod
     def error(bot, update, error):
