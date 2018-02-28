@@ -8,12 +8,14 @@ import re
 import telebot
 
 from dice_parser import DiceParser, Transformer
+from dndbeyond_websearch import Searcher, SearchResult
 from telegram.parsemode import ParseMode
 from telegram.ext import CommandHandler, Filters, MessageHandler, Updater
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.WARN)
 logger = logging.getLogger(__name__)
 dice_parser = DiceParser()
+dnd_searcher = Searcher()
 
 def hi_command(bot, update):
     user = update.message.from_user
@@ -36,7 +38,8 @@ def help_command(bot, update):
                          '<code>/roll</code> - roll dices. E.g.: /roll 2d6 + 5\n' +
                          '<code>/r</code> - shortcut for roll command\n' +
                          '<code>/percent</code> - equals to /roll 1d100\n' +
-                         '<code>/init</code> - roll dices for initiative (or any saves), result will be sorted; you may also pass your bonuses with your names, e.g.: /init barbarian=2 cleric=0 orc1=1 orc2=1', 
+                         '<code>/init</code> - roll dices for initiative (or any saves), result will be sorted; you may also pass your bonuses with your names, e.g.: /init barbarian=2 cleric=0 orc1=1 orc2=1' +
+                         '<code>/search</code> - look for given query on dndbeyond.com', 
                     parse_mode=ParseMode.HTML)
 
 def init_command(bot, update):
@@ -63,7 +66,6 @@ def roll_command(bot, update):
     ndx = msg_text.find(' ')
     if ndx == -1:
         roll_msg("1d20", bot, update)
-        
     else:
         msg = msg_text[ndx:]
         roll_msg(msg, bot, update)
@@ -84,11 +86,35 @@ def roll_msg(source_msg, bot, update):
 def rollD(d):
     return random.randint(1, d)
 
+def search_command(bot, update):
+    msg_text = update.message.text[8:].strip()
+    if len(msg_text) == 0:
+        bot.sendMessage(chat_id=update.message.chat_id, text="I don't know what you are looking for", parse_mode=ParseMode.HTML)
+        return
+    results = dnd_searcher.search(msg_text)
+    compendium_results = [r for r in results if r.breadcrumbs.upper().startswith("COMPENDIUM")]
+    if len(compendium_results) == 0:
+        bot.sendMessage(chat_id=update.message.chat_id, text="I've found nothing", parse_mode=ParseMode.HTML)
+        return
+    result_text = "Found " + str(len(compendium_results)) + " result(s)\n\n" +
+        format_search_result_full(compendium_results[0]) +
+        (format_search_result_short(sr) for sr in compendium_results[1:10] if sr is not None)
+
+def format_search_result_full(search_result):
+    return "<b>" + search_result.title + "</b>\n" +
+        search_result.url + "\n" +
+        search_result.breadcrumbs + "\n" +
+        ((snippet + "\n") for snippet in search_result.snippets)
+
+def format_search_result_short(search_result):
+    return "<b>" + search_result.title + "</b> (" + search_result.breadcrumbs + ")\n" +
+        search_result.url + "\n"
+
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
 
 if __name__ == '__main__':
-    TOKEN=os.environ['bot_token']
+    TOKEN = os.environ['bot_token']
     PORT = int(os.environ.get('PORT', '5000'))
     updater = Updater(TOKEN)
 
@@ -104,6 +130,7 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler("r", roll_command))
     dispatcher.add_handler(CommandHandler("percent", roll_percent))
     dispatcher.add_handler(CommandHandler("hi", hi_command))
+    dispatcher.add_handler(CommandHandler("search", search_command))
 
     dispatcher.add_error_handler(error)
 
