@@ -99,10 +99,11 @@ def search_command(bot, update):
     result_text = 'Found ' + str(len(compendium_results)) + ' result(s)\n\n' + str(format_search_result_full(compendium_results[0])) + str((format_search_result_short(sr) for sr in compendium_results[1:10] if sr is not None))
 
 def format_search_result_full(search_result):
-    return '<b>' + str(search_result.title) + '</b>\n' + str(search_result.url) + '\n' + str(search_result.breadcrumbs) + '\n' + ((str(snippet) + '\n') for snippet in search_result.snippets)
+    return '<b>' + search_result.title + '</b>\n' + search_result.url + '\n' + search_result.breadcrumbs + '\n'
+#+ ((str(snippet) + '\n') for snippet in search_result.snippets)
 
 def format_search_result_short(search_result):
-    return '<b>' + str(search_result.title) + '</b> (' + str(search_result.breadcrumbs) + ')\n' + str(search_result.url) + '\n'
+    return '<b>' + search_result.title + '</b> (' + search_result.breadcrumbs + ')\n' + search_result.url + '\n'
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
