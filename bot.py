@@ -96,7 +96,7 @@ def search_command(bot, update):
     if len(compendium_results) == 0:
         bot.sendMessage(chat_id=update.message.chat_id, text="I've found nothing", parse_mode=ParseMode.HTML)
         return
-    result_text = 'Found ' + str(len(compendium_results)) + ' result(s)\n\n' + str(format_search_result_full(compendium_results[0])) + '\n'.join(format_search_result_short(sr) for sr in compendium_results[1:5] if sr is not None)
+    result_text = 'Found ' + str(len(compendium_results)) + ' result(s)\n\n' + str(format_search_result_full(compendium_results[0])) + '\n\n' + '\n'.join(format_search_result_short(sr) for sr in compendium_results[1:5] if sr is not None)
     bot.sendMessage(chat_id=update.message.chat_id, text=result_text, parse_mode=ParseMode.HTML)
 
 def format_search_result_full(search_result):
