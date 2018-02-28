@@ -161,7 +161,7 @@ class PurpleBot:
 
     @staticmethod
     def format_search_result_short(search_result):
-        return '<a href="' + search_result.url + '">' + search_result.title + '</a> ' + \
+        return '<a href="' + search_result.url.replace("'", "%E2%80%99") + '">' + search_result.title + '</a> ' + \
                '(' + search_result.breadcrumbs + ')\n'
 
     @staticmethod
