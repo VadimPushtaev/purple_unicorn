@@ -96,19 +96,17 @@ def search_command(bot, update):
     if len(compendium_results) == 0:
         bot.sendMessage(chat_id=update.message.chat_id, text="I've found nothing", parse_mode=ParseMode.HTML)
         return
-    result_text = "Found " + str(len(compendium_results)) + " result(s)\n\n" +
-        format_search_result_full(compendium_results[0]) +
-        (format_search_result_short(sr) for sr in compendium_results[1:10] if sr is not None)
+    result_text = 'Found ' + str(len(compendium_results)) + ' result(s)\n\n' + str(format_search_result_full(compendium_results[0])) + str((format_search_result_short(sr) for sr in compendium_results[1:10] if sr is not None))
 
 def format_search_result_full(search_result):
-    return "<b>" + search_result.title + "</b>\n" +
-        search_result.url + "\n" +
-        search_result.breadcrumbs + "\n" +
-        ((snippet + "\n") for snippet in search_result.snippets)
+    return '<b>' + search_result.title + '</b>\n' +
+        search_result.url + '\n' +
+        search_result.breadcrumbs + '\n' +
+        ((snippet + '\n') for snippet in search_result.snippets)
 
 def format_search_result_short(search_result):
-    return "<b>" + search_result.title + "</b> (" + search_result.breadcrumbs + ")\n" +
-        search_result.url + "\n"
+    return '<b>' + search_result.title + '</b> (' + search_result.breadcrumbs + ')\n' +
+        search_result.url + '\n'
 
 def error(bot, update, error):
     logger.warn('Update "%s" caused error "%s"' % (update, error))
