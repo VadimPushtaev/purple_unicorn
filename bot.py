@@ -92,11 +92,11 @@ def search_command(bot, update):
         bot.sendMessage(chat_id=update.message.chat_id, text="I don't know what you are looking for", parse_mode=ParseMode.HTML)
         return
     results = dnd_searcher.search(msg_text)
-    compendium_results = [r for r in results if r.breadcrumbs.upper().startswith("COMPENDIUM")]
+    compendium_results = [r for r in results if r.breadcrumbs.upper().startswith("COMPENDIUM") or r.breadcrumbs.upper().startswith("SPELLS")  or r.breadcrumbs.upper().startswith("ITEMS") or r.breadcrumbs.upper().startswith("MONSTERS")]
     if len(compendium_results) == 0:
         bot.sendMessage(chat_id=update.message.chat_id, text="I've found nothing", parse_mode=ParseMode.HTML)
         return
-    result_text = 'Found ' + str(len(compendium_results)) + ' result(s)\n\n' + str(format_search_result_full(compendium_results[0])) + ''.join(format_search_result_short(sr) for sr in compendium_results[1:5] if sr is not None)
+    result_text = 'Found ' + str(len(compendium_results)) + ' result(s)\n\n' + str(format_search_result_full(compendium_results[0])) + '\n'.join(format_search_result_short(sr) for sr in compendium_results[1:5] if sr is not None)
     bot.sendMessage(chat_id=update.message.chat_id, text=result_text, parse_mode=ParseMode.HTML)
 
 def format_search_result_full(search_result):
