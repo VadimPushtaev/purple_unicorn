@@ -100,7 +100,7 @@ def search_command(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text=result_text, parse_mode=ParseMode.HTML)
 
 def format_search_result_full(search_result):
-    return '<b>' + search_result.title + '</b>\n' + search_result.url + '\n' + search_result.breadcrumbs + '\n' + '\n'.join(str(snippet) for snippet in search_result.snippets)
+    return '<b>' + search_result.title + '</b>\n' + search_result.url + '\n' + search_result.breadcrumbs + '\n' + '\n'.join(str(snippet) for snippet in search_result.snippets if len(snippet.strip()) > 0)
 
 def format_search_result_short(search_result):
     return '<b>' + search_result.title + '</b> (' + search_result.breadcrumbs + ')\n' + search_result.url + '\n'
