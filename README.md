@@ -43,4 +43,4 @@ Results are already sorted. The main number for us is one from the second column
 
 ## Used libs
 * python-telegram-bot 5.3.0 - nice API for telegram
-* dice-parser 0.6 - special parser for dice rolling by V.Pushtaev ( https://github.com/VadimPushtaev/dice_parser )
+* dice-parser 0.7 - special parser for dice rolling by V.Pushtaev ( https://github.com/VadimPushtaev/dice_parser )
