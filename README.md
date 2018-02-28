@@ -4,7 +4,7 @@ Simple telegram bot with webhooks. It's good for being deployed on Heroku.
 ## What it can do (shortly)
 * roll dice (such as 1d6, 1d20 and so on) even when they are part of complex expression (e.g. `(2d6 + 5)*3 - 1d20`). Or much more complex expression: `(3d10H2)d(5d20L1 + 10)`
 * roll dice for group of characters and sort results (e.g. when everyone should roll initiative or make save throws)
-* ask dndbeyond.com for information about spells, abilities and monsters
+* ask https://www.dndbeyond.com/ for information about spells, abilities and monsters
 * send random messages or stickers with purple unicorn ( https://tlgrm.ru/stickers/UnicornStella ) if you want to speak with it
 * just be cool
 
@@ -17,14 +17,29 @@ Simple telegram bot with webhooks. It's good for being deployed on Heroku.
 #### Complex expressions:
 * `5d10H2` - `'H<number>'` suffix means that you roll whatever is in front of it and then take and summarize only `<number>` highest results.
   
-  Example: `5d10H2`. `5d10` produces `[4, 2, 2, 3, 1]`. According to `H2` we take 2 highest results from this set: `4` and `3`. Answer is `4+3=7`
+  *Example*: `5d10H2`. `5d10` produces `[4, 2, 2, 3, 1]`. According to `H2` we take 2 highest results from this set: `4` and `3`. Answer is `4+3=7`
 * `4d20L3` - `'L<number>'` suffix do the same but take only `<number>` of the lowest results.
   
-  Example: `4d20L3`. `4d20` produces `[20, 6, 3, 9]`. According to `L3` we take 3 lowest results from this set: `6`, `3` and `9`. Answer is `6+3+9=18`
+  *Example*: `4d20L3`. `4d20` produces `[20, 6, 3, 9]`. According to `L3` we take 3 lowest results from this set: `6`, `3` and `9`. Answer is `6+3+9=18`
 #### Very complex expressions:
 * `(7d10H4)d(5d20L1+10)H(1d5)` - expression may consists of any complex parts. Each of them will be counted to number which will be used in the next level of expression.
   
-  Example: `(7d10H4)d(5d20L1+10)H(1d5)`. Result for `(7d10H4)` is `R1`, for `(5d20L1+10)` is `R2` and for `(1d5)` is `R3`. After counting those expressions we can use their results in the main part: `(7d10H4)d(5d20L1+10)H(1d5) = (R1)d(R2)H(R3)` - is the same as 'roll 1d(R2) die (R1) times and take (R3) highest results'.
+  *Example*: `(7d10H4)d(5d20L1+10)H(1d5)`. Result for `(7d10H4)` is `R1`, for `(5d20L1+10)` is `R2` and for `(1d5)` is `R3`. After counting those expressions we can use their results in the main part: `(7d10H4)d(5d20L1+10)H(1d5) = (R1)d(R2)H(R3)` - is the same as 'roll 1d(R2) die (R1) times and take (R3) highest results'.
+### Group results
+It is good for rolling 1d20 for a group of characters with personal bonuses and then sort results.
+
+For example, we had a group consists of barbarian (with initiative bonus +2) and cleric (initiative -1) who meet orcs (initiative 2 and 1). So that's time for rolling initiative:
+
+```/init barbarian=2 cleric=-1 orc1=1 orc2=1```
+
+```Results:
+barbarian : 15 (13 2 [1])
+cleric    : 12 (13 -1 [4])
+orc1      : 11 (10 1 [1])
+orc2      : 5 (4 1 [10])
+```
+
+Results are already sorted. The main number for us is one from the second column (first column is for names) - this is result (1d20 + bonus). The third column shows bonuses, and the last one (in square bracers) is additional roll that would be used in conflicts (same values in previous columns).
 
 ## Used libs
 * python-telegram-bot 5.3.0 - nice API for telegram
