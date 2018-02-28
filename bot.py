@@ -136,19 +136,19 @@ class PurpleBot:
             PurpleBot.send_message(bot, update.message.chat_id, "I've found nothing")
             return
         result_text = 'Found ' + str(len(compendium_results)) + ' result(s)\n\n' + \
-                      str(PurpleBot.format_search_result_full(compendium_results[0])) + '\n\n' + \
-                      '\n'.join(PurpleBot.format_search_result_short(sr) for sr in compendium_results[1:5] if sr is not None)
+                      str(PurpleBot.search_result_full(compendium_results[0])) + '\n\n' + \
+                      '\n'.join(PurpleBot.search_result_short(sr) for sr in compendium_results[1:5] if sr is not None)
         PurpleBot.send_message(bot, update.message.chat_id, result_text)
 
     @staticmethod
-    def format_search_result_full(search_result):
+    def search_result_full(search_result):
         return '<b>' + search_result.title + '</b>\n' + \
                search_result.url.replace("’", "%E2%80%99") + '\n' + \
                search_result.breadcrumbs + '\n' + \
                '\n'.join(str(snippet) for snippet in search_result.snippets)
 
     @staticmethod
-    def format_search_result_short(search_result):
+    def search_result_short(search_result):
         return '<a href="' + search_result.url.replace("’", "%E2%80%99") + '">' + search_result.title + '</a> ' + \
                '(' + search_result.breadcrumbs + ')\n'
 
