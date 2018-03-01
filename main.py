@@ -21,6 +21,7 @@ if __name__ == '__main__':
     dispatcher.add_handler(CommandHandler("roll", bot.roll_command))
     dispatcher.add_handler(CommandHandler("r", bot.roll_command))
     dispatcher.add_handler(CommandHandler("percent", bot.roll_percent))
+    dispatcher.add_handler(CommandHandler("fc", bot.flip_coin))
     dispatcher.add_handler(CommandHandler("hi", bot.hi_command))
     dispatcher.add_handler(CommandHandler("search", bot.search_command))
 

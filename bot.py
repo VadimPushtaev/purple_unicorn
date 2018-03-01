@@ -27,7 +27,7 @@ class PurpleBot:
                                     message[i*cls.MESSAGE_MAX_LENGTH:(i+1)*cls.MESSAGE_MAX_LENGTH])
             i = i + 1
 
-    def send_hi_message(self, bot, chat_id, username ):
+    def send_hi_message(self, bot, chat_id, username):
         msgs = ["I'm crazy purple unicorn!!!!!",
                 "Tell me 'bout the raaaaabits",
                 "I am fluffy! Fluffy-fluffy-fluffy WOLF!",
@@ -86,6 +86,10 @@ class PurpleBot:
             self.send_message(bot, chat_id, "I will not follow your commands!")
         except Exception:
             self.send_message(bot, chat_id, "Oh, c'mon, sweety, stop doing this")
+
+    def flip_coin(self, bot, chat_id, username):
+        dice_result = self.dice_parser.parse("1d2").value
+        self.send_message(bot, chat_id, username + ": " + (u"орёл" if dice_result == 1 else u"решка"))
 
     def execute_search(self, bot, chat_id, query):
         if query is None or len(query) == 0:

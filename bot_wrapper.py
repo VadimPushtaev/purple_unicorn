@@ -60,6 +60,10 @@ class BotCommandWrapper:
         cls.purple_bot.roll_msg(bot, update.message.chat_id, cls._extract_username(update), "1d100")
 
     @classmethod
+    def flip_coin(cls, bot, update):
+        cls.purple_bot.flip_coin(bot, update.message.chat_id, cls._extract_username(update))
+
+    @classmethod
     def search_command(cls, bot, update):
         msg_text = update.message.text[8:].strip()
         cls.purple_bot.execute_search(bot, update.message.chat_id, msg_text)
