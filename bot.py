@@ -62,8 +62,8 @@ class PurpleBot:
         parts_tuples = []
         width = 1
         for p in participants:
-            roll = self.dice_parser.parse("1d20").value
-            char = (p[0], roll+int(p[1]), int(p[1]), roll, self.dice_parser.parse("1d10").value)
+            roll = random.randint(1, 20)
+            char = (p[0], roll+int(p[1]), int(p[1]), roll, random.randint(1, 10))
             parts_tuples.append(char)
             if len(p[0]) > width:
                 width = len(p[0])
@@ -88,7 +88,7 @@ class PurpleBot:
             self.send_message(bot, chat_id, "Oh, c'mon, sweety, stop doing this")
 
     def flip_coin(self, bot, chat_id, username):
-        dice_result = self.dice_parser.parse("1d2").value
+        dice_result = random.randint(1, 2)
         self.send_message(bot, chat_id, username + ": " + (u"орёл" if dice_result == 1 else u"решка"))
 
     def execute_search(self, bot, chat_id, query):
