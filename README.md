@@ -47,4 +47,5 @@ Results are already sorted. The main number for us is one from the second column
 
 ## Current states
 Master: [![Build Status](https://semaphoreci.com/api/v1/graukin/purple_unicorn/branches/master/badge.svg)](https://semaphoreci.com/graukin/purple_unicorn)
+
 Stable release: tag v4.4 (ba71dcd)
