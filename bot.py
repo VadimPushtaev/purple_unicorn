@@ -77,7 +77,7 @@ class PurpleBot:
 
     def flip_coin(self, username):
         dice_result = self._get_roll(2)
-        return username + ": " + (u"орёл" if dice_result == 1 else u"решка")
+        return username + ": " + ("орёл" if dice_result == 1 else "решка")
 
     def execute_search(self, query):
         if query is None or len(query) == 0:
