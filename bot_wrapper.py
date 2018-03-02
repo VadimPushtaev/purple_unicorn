@@ -3,6 +3,8 @@
 
 import logging
 from bot import PurpleBot
+from telegram.parsemode import ParseMode
+import random
 import re
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -11,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class BotCommandWrapper:
+    MESSAGE_MAX_LENGTH = 4096
     purple_bot = PurpleBot()
 
     def __init__(self):
@@ -24,13 +27,33 @@ class BotCommandWrapper:
             name = user.username
         return name
 
+    @staticmethod
+    def send_single_message(bot, chat_id, msg, mode=ParseMode.HTML):
+        bot.sendMessage(chat_id=chat_id, text=msg, parse_mode=mode)
+
+    @classmethod
+    def send_message(cls, bot, chat_id, message):
+        i = 0
+        while i*cls.MESSAGE_MAX_LENGTH < len(message):
+            cls.send_single_message(bot,
+                                    chat_id,
+                                    message[i*cls.MESSAGE_MAX_LENGTH:(i+1)*cls.MESSAGE_MAX_LENGTH])
+            i = i + 1
+
+    @classmethod
+    def send_sticker(cls, bot, chat_id, sticker):
+        cls.send_sticker(bot, chat_id, sticker)
+
     @classmethod
     def hi_command(cls, bot, update):
-        cls.purple_bot.send_hi_message(bot, update.message.chat_id, cls._extract_username(update))
+        if random.randint(0, 1) == 0:
+            cls.send_message(bot, update.message.chat_id, cls.purple_bot.get_random_greetings(cls._extract_username(update)))
+        else:
+            cls.send_sticker(bot, update.message.chat_id, cls.purple_bot.get_random_sticker())
 
     @classmethod
     def help_command(cls, bot, update):
-        cls.purple_bot.send_help_message(bot, update.message.chat_id)
+        cls.send_message(bot, update.message.chat_id, cls.purple_bot.get_help_message())
 
     @classmethod
     def init_command(cls, bot, update):
@@ -43,30 +66,34 @@ class BotCommandWrapper:
                 res_tuples.append((init_parts[0], init_parts[1]))
             else:
                 res_tuples.append((init_parts[0], 0))
-        cls.purple_bot.generate_init(bot, update.message.chat_id, res_tuples)
+        cls.send_message(bot, update.message.chat_id, cls.purple_bot.generate_init(res_tuples))
 
     @classmethod
     def roll_command(cls, bot, update):
         msg_text = update.message.text.strip()
         ndx = msg_text.find(' ')
         if ndx == -1:
-            cls.purple_bot.roll_msg(bot, update.message.chat_id, cls._extract_username(update), "1d20")
+            cls.send_message(bot,
+                             update.message.chat_id,
+                             cls.purple_bot.roll_msg(cls._extract_username(update), "1d20"))
         else:
             msg = msg_text[ndx:]
-            cls.purple_bot.roll_msg(bot, update.message.chat_id, cls._extract_username(update), msg)
+            cls.send_message(bot,
+                             update.message.chat_id,
+                             cls.purple_bot.roll_msg(cls._extract_username(update), msg))
 
     @classmethod
     def roll_percent(cls, bot, update):
-        cls.purple_bot.roll_msg(bot, update.message.chat_id, cls._extract_username(update), "1d100")
+        cls.send_message(bot, update.message.chat_id, cls.purple_bot.roll_msg(cls._extract_username(update), "1d100"))
 
     @classmethod
     def flip_coin(cls, bot, update):
-        cls.purple_bot.flip_coin(bot, update.message.chat_id, cls._extract_username(update))
+        cls.send_message(bot, update.message.chat_id, cls.purple_bot.flip_coin(cls._extract_username(update)))
 
     @classmethod
     def search_command(cls, bot, update):
         msg_text = update.message.text[8:].strip()
-        cls.purple_bot.execute_search(bot, update.message.chat_id, msg_text)
+        cls.send_message(bot, update.message.chat_id, cls.purple_bot.execute_search(msg_text))
 
     @classmethod
     def error(cls, bot, update, error):
