@@ -11,13 +11,19 @@ class PurpleBot:
         self.dice_parser = DiceParser()
         self.dnd_searcher = Searcher()
 
+    def _get_rand(self, max):
+        return random.randint(0, max)
+
+    def _get_roll(self, die):
+        return 1 + self._get_rand(die - 1)
+
     def get_random_greetings(self, username):
         msgs = ["I'm crazy purple unicorn!!!!!",
                 "Tell me 'bout the raaaaabits",
                 "I am fluffy! Fluffy-fluffy-fluffy WOLF!",
                 "Let me be a leader and I shall endeavor not to get all of us killed.",
                 username + ', why are you talking to me?!']
-        r = random.randint(0, len(msgs) - 1)
+        r = self._get_rand(len(msgs) - 1)
         return msgs[r]
 
     def get_random_sticker(self):
@@ -28,7 +34,7 @@ class PurpleBot:
                     'CAADAgADNAAD7sShCuKlu6OUNCgmAg',
                     'CAADAgADQAAD7sShCgjoFTxdY7vVAg',
                     'CAADAgADpgIAAu7EoQpMlrIZAAFx37kC']
-        r = random.randint(0, len(stickers)-1)
+        r = self._get_rand(len(stickers)-1)
         return stickers[r]
 
     def get_help_message(self):
@@ -44,8 +50,8 @@ class PurpleBot:
         parts_tuples = []
         width = 1
         for p in participants:
-            roll = random.randint(1, 20)
-            char = (p[0], roll+int(p[1]), int(p[1]), roll, random.randint(1, 10))
+            roll = self._get_roll(20)
+            char = (p[0], roll+int(p[1]), int(p[1]), roll, self._get_roll(10))
             parts_tuples.append(char)
             if len(p[0]) > width:
                 width = len(p[0])
@@ -70,7 +76,7 @@ class PurpleBot:
             return "Oh, c'mon, sweety, stop doing this"
 
     def flip_coin(self, username):
-        dice_result = random.randint(1, 2)
+        dice_result = self._get_roll(2)
         return username + ": " + (u"орёл" if dice_result == 1 else u"решка")
 
     def execute_search(self, query):
