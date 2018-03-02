@@ -3,37 +3,19 @@
 
 import unittest
 from unittest import TestCase
-from unittest.mock import MagicMock, call
+#from unittest.mock import MagicMock
 
-from telegram.parsemode import ParseMode
-from bot import PurpleBot as PB
-
-
-class DummyBot:
-    def __init__(self):
-        pass
-
-    @classmethod
-    def sendMessage(cls, chat_id, text, parse_mode):
-        pass
+from bot import PurpleBot
 
 
 class BotTestCase(TestCase):
-    bot = None
+    bot = PurpleBot()
 
     def setUp(self):
-        self.bot = DummyBot()
+        PurpleBot._get_rand = lambda self, max: max/2
 
-    def test_send_short_msg(self):
-        self.bot.sendMessage = MagicMock()
-        PB.send_message(self.bot, 123, "abc")
-        self.bot.sendMessage.assert_called_with(chat_id=123, text="abc", parse_mode=ParseMode.HTML)
-
-    def test_send_long_msg(self):
-        self.bot.sendMessage = MagicMock()
-        PB.send_message(self.bot, 123, "a" * 5000)
-        self.bot.sendMessage.assert_has_calls([call(chat_id=123, text="a" * 4096, parse_mode=ParseMode.HTML)])
-        self.bot.sendMessage.assert_called_with(chat_id=123, text="a"*904, parse_mode=ParseMode.HTML)
+    def test_roll(self):
+        self.assertEqual(10, self.bot._get_roll(20))
 
 
 if __name__ == '__main__':
