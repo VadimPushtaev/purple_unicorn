@@ -4,6 +4,7 @@ Simple telegram bot with webhooks. It's good for being deployed on Heroku.
 ## What it can do (shortly)
 * roll dice (such as 1d6, 1d20 and so on) even when they are part of complex expression (e.g. `(2d6 + 5)*3 - 1d20`). Or much more complex expression: `(3d10H2)d(5d20L1 + 10)`
 * roll dice for group of characters and sort results (e.g. when everyone should roll initiative or make save throws)
+* flip a coin
 * ask https://www.dndbeyond.com/ for information about spells, abilities and monsters
 * send random messages or stickers with purple unicorn ( https://tlgrm.ru/stickers/UnicornStella ) if you want to speak with it
 * just be cool
@@ -28,7 +29,7 @@ Simple telegram bot with webhooks. It's good for being deployed on Heroku.
 ### Group results
 It is good for rolling 1d20 for a group of characters with personal bonuses and then sort results.
 
-For example, we had a group consists of barbarian (with initiative bonus +2) and cleric (initiative -1) who meet orcs (initiative 2 and 1). So that's time for rolling initiative:
+For example, we have a group consists of barbarian (with initiative bonus +2) and cleric (initiative -1) who meet orcs (initiative 2 and 1). So that's time for rolling initiative:
 
 ```/init barbarian=2 cleric=-1 orc1=1 orc2=1```
 
@@ -40,6 +41,19 @@ orc2      : 5 (4 1 [10])
 ```
 
 Results are already sorted. The main number for us is one from the second column (first column is for names) - this is result of `1d20 + bonus`, which are in the third and the fourth columns, accordingly. And the last one (in square bracers) is additional roll that would be used in conflicts (if there are all the same values in previous columns).
+
+### Flip a coin
+Just as it is named. Result is either 'heads' or 'tails'.
+
+### Search information
+Web-site https://dndbeyond.com/ has no normal API but it has a lot of information on D&D universe. Bot goes to that site, takes results of web-search, parse them, throws away results from forum ('cause they are almost irrelevant and stupid) and then shows what left. First result has its snippet, the rest have only title and breadcrumbs.
+
+### Random talking
+#### Say 'hello!'
+Every time you greet bot, it will send you random message (they are supposed to be funny, or at least known for fans of computer RPG's or users who have seen a lot of memes in Internet) or a random sticker from 'Purple Unicorn' set.
+
+#### Helping hand
+Bot can give you information about all its commands as well as every command separately.
 
 ## Used libs
 * python-telegram-bot 5.3.0 - nice API for telegram
