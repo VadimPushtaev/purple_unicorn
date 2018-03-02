@@ -63,4 +63,6 @@ Bot can give you information about all its commands as well as every command sep
 ## Current states
 Master: [![Build Status](https://semaphoreci.com/api/v1/graukin/purple_unicorn/branches/master/badge.svg)](https://semaphoreci.com/graukin/purple_unicorn)
 
+Develop: [![Build Status](https://semaphoreci.com/api/v1/graukin/purple_unicorn/branches/develop/badge.svg)](https://semaphoreci.com/graukin/purple_unicorn)
+
 Stable release: tag v4.4 (ba71dcd)
