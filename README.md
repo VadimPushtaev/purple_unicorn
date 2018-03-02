@@ -44,6 +44,7 @@ Results are already sorted. The main number for us is one from the second column
 ## Used libs
 * python-telegram-bot 5.3.0 - nice API for telegram
 * dice-parser 0.7 - special parser for dice rolling by V.Pushtaev ( https://github.com/VadimPushtaev/dice_parser )
+* dndbeyond_websearch 0.2 - lib that allows to use web-search from dndbeyond.com. By V.Pushtaev, either ( https://github.com/VadimPushtaev/dndbeyond_websearch )
 
 ## Current states
 Master: [![Build Status](https://semaphoreci.com/api/v1/graukin/purple_unicorn/branches/master/badge.svg)](https://semaphoreci.com/graukin/purple_unicorn)
