@@ -51,6 +51,7 @@ class PurpleBot:
         width = 1
         for p in participants:
             roll = self._get_roll(20)
+            # name | result | bonus | roll | additional roll
             char = (p[0], roll+int(p[1]), int(p[1]), roll, self._get_roll(10))
             parts_tuples.append(char)
             if len(p[0]) > width:
