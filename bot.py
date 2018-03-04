@@ -78,7 +78,7 @@ class PurpleBot:
                    '<code>/help</code> - get list of all commands with tiny descriptions\n' + \
                    '<code>/help roll</code> - get more help about \'/roll\' command (you can use any of allowed command names)'
         else:
-            return 'Nobody can help you, you are doomed.'
+            return 'Nobody can help you, you are doomed. [' + command + '] is wrong command.'
 
     def generate_init(self, participants):
         parts_tuples = []
