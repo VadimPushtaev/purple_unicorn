@@ -53,7 +53,15 @@ class BotCommandWrapper:
 
     @classmethod
     def help_command(cls, bot, update):
-        cls.send_message(bot, update.message.chat_id, cls.purple_bot.get_help_message())
+        msg_text = update.message.text.strip()
+        ndx = msg_text.find(' ')
+        if ndx == -1:
+            cls.send_message(bot, update.message.chat_id, cls.purple_bot.get_help_message())
+        else:
+            command = msg = msg_text[ndx:]
+            cls.send_message(bot,
+                             update.message.chat_id,
+                             cls.purple_bot.get_current_help(msg))
 
     @classmethod
     def init_command(cls, bot, update):
