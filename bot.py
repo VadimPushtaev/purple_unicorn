@@ -42,9 +42,43 @@ class PurpleBot:
                '<code>/roll</code> - roll dices. E.g.: /roll 2d6 + 5\n' + \
                '<code>/r</code> - shortcut for roll command\n' + \
                '<code>/percent</code> - equals to /roll 1d100\n' + \
+               '<code>/fc</code> - roll 1d2 and translate results in "head or tails"\n' + \
                '<code>/init</code> - roll dices for initiative (or any saves), result will be sorted; you may also pass your bonuses with your names, e.g.: /init barbarian=2 cleric=0 orc1=1 orc2=1\n' + \
                '<code>/search</code> - look for given query on dndbeyond.com\n' + \
                '<code>/help</code> - this message'
+            
+    def get_current_help(self, command):
+        if command == 'hi':
+            return '<code>/hi</code> - as an answer to this command bot will send random message OR random sticker from \'Unicorn Stella\'-pack'
+        elif command == 'roll' or command == 'r':
+            return '<code>/' + command + ' [expression - optional]</code> - bot will try to execute given expression.\n' + \
+                   'Examples:\n' + \
+                   '<code>/' + command + '</code> - roll 1d20\n' + \
+                   '<code>/' + command + ' 3d6</code> - roll 1d6 die 3 times and summarize the result\n' + \
+                   '<code>/' + command + ' (2+5)*3*(14-2)</code> - just calculate this expression\n' + \
+                   '<code>/' + command + ' (2+1)d(17+4) + 2</code> - roll 1d21 die 3 times and add 2 to the sum\n' + \
+                   '<code>/' + command + ' 3d6H2</code> - roll 1d6 die 3 times and get only 2 highest results (and sum them)\n' + \
+                   '<code>/' + command + ' 4d8L1</code> - roll 1d8 die 4 times and get only 1 lowest result\n' + \
+                   '<code>/' + command + ' d</code> - roll 1d20\n' + \
+                   '<code>/' + command + ' (1d3)d(5d4H2)L(1d3+1)</code> - any allowed expressions can be combined\n'
+        elif command == 'percent':
+            return '<code>/percent</code> - roll 1d100'
+        elif command == 'init':
+            return '<code>/init [list of characters - required, their bonuses - optional]</code> - roll initiative and sort results\n' + \
+                   'Examples:\n' + \
+                   '<code>/init player1 player2</code> - roll initiative (1d20) for each, initiative bonus is 0 for both\n' + \
+                   '<code>/init player1=5 player2 player3=-1</code> - roll initiative (1d20) for each, add initiative bonus: 5 for player1, 0 for player2 and -1 for player3\n' + \
+                   'Results look like this:\n' + \
+                   '<code>player4 : 23 (18 5 [2])</code> - it means that total result for <code>player4</code> is <code>23</code>: <code>18</code> was rolled and <code>5</code> is a bonus. <code>[2]</code> is additional roll for cases when 2 or more players have similar results and we need just to order them.'
+        elif command == 'search':
+            return '<code>/search [query - required]</code> - go to dndbeyond.com and look for results'
+        elif command == 'help':
+            return '<code>/help [command - optional]</code> - get help\n' + \
+                   'Examples:\n' + \
+                   '<code>/help</code> - get list of all commands with tiny descriptions\n' + \
+                   '<code>/help roll</code> - get more help about \'/roll\' command (you can use any of allowed command names)'
+        else:
+            return 'Nobody can help you, you are doomed.'
 
     def generate_init(self, participants):
         parts_tuples = []
