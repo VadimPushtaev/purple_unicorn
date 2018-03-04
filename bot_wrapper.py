@@ -58,7 +58,7 @@ class BotCommandWrapper:
         if ndx == -1:
             cls.send_message(bot, update.message.chat_id, cls.purple_bot.get_help_message())
         else:
-            msg = msg_text[ndx:]
+            msg = msg_text[ndx+1:]
             cls.send_message(bot,
                              update.message.chat_id,
                              cls.purple_bot.get_current_help(msg))
