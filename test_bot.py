@@ -80,6 +80,11 @@ class BotTestCase(TestCase):
                          "sn3\n\n" +
                          "<a href=\"url2\">title2</a> (spells -> cat2)\n\n" +
                          "<a href=\"url4\">title4</a> (monster -> cat)\n", bot.execute_search("query"))
+        
+    def test_help(self):
+        bot = PurpleBot()
+        self.assertEqual("<code>/percent</code> - roll 1d100", bot.get_current_help("percent"))
+        self.assertEqual("Nobody can help you, you are doomed.", bot.get_current_help("ajkshgjksdfhg"))
 
 
 if __name__ == '__main__':
