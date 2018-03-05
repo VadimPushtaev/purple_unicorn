@@ -57,7 +57,7 @@ Bot can give you information about all its commands as well as every command sep
 
 ## Used libs
 * python-telegram-bot 5.3.0 - nice API for telegram
-* dice-parser 0.7 - special parser for dice rolling by V.Pushtaev ( https://github.com/VadimPushtaev/dice_parser )
+* dice-parser 0.8 - special parser for dice rolling by V.Pushtaev ( https://github.com/VadimPushtaev/dice_parser )
 * dndbeyond_websearch 0.2 - lib that allows to use web-search from dndbeyond.com. By V.Pushtaev, either ( https://github.com/VadimPushtaev/dndbeyond_websearch )
 
 ## Current states
