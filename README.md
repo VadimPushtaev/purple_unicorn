@@ -65,4 +65,4 @@ Master: [![Build Status](https://semaphoreci.com/api/v1/graukin/purple_unicorn/b
 
 Develop: [![Build Status](https://semaphoreci.com/api/v1/graukin/purple_unicorn/branches/develop/badge.svg)](https://semaphoreci.com/graukin/purple_unicorn)
 
-Stable release: tag v5.0 (89b4518)
+Stable release: tag v1.5.1 (93b3c56)
